@@ -11,13 +11,24 @@ const MyProfile = () => {
     const {data: session} = useSession()
     const router = useRouter()
 
-    const handleEdit = () => {
-        router.push("")
+    const handleEdit = (prompt) => {
+        router.push(`/update-prompt?id=${prompt._id}`)
     }
 
-    const handleDelete = async() => {
-
-    }
+    const handleDelete = async(prompt) => {
+      const hasConfirm = confirm("Are you sure you want to delete this prompt?")
+      if(hasConfirm){
+        try {
+            await fetch(`/api/prompt/${prompt._id.toString()}`, {
+              method: "DELETE"
+            })
+            const filteredPrompts = prompts.filter(p => p._id !== prompt._id)
+            setPrompts(filteredPrompts)
+        } catch (error) {
+          console.log(error)
+        }
+      }
+    } 
 
     useEffect(() => { 
         const fetchPrompts = async() => {
