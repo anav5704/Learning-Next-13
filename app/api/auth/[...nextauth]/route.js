@@ -36,7 +36,7 @@ const handler = nextAuth({
             }
         } 
     },
-
+    site: 'https://promptopiabyanav.netlify.app/',
  })
 
  export { handler as GET, handler as POST }
