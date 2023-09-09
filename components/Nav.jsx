@@ -8,16 +8,15 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 const Nav = () => {
   const [providers, setProviders] = useState(null)
   const [toggle, setToggle] = useState(false)
-  useEffect(() => {
-    const setProviders = async() => { 
-      // const response = await getProviders()
-      // setProviders(response)
-      console.log("hey")
-    }
-    setProviders()
-  }, [])
+  const {data: session} = useSession()
 
-  const user = true
+  useEffect(() => {
+    const setUpProviders = async() => { 
+      const response = await getProviders()
+      setProviders(response)
+    }
+    setUpProviders()
+  }, [])
 
   return (
     <nav className="flex-between w-full mb-16 pt-5">
@@ -26,12 +25,12 @@ const Nav = () => {
         <p className="logo_text">Promptopia</p>
       </Link>
       <div className="sm:flex hidden">
-        { user ? (
+        { session?.user ? (
             <div className="flex gap-5">
-                <Link href="/create-promts" className="black_btn">Create Prompt</Link>
+                <Link href="/create-prompt" className="black_btn">Create Prompt</Link>
                 <button type="button" onClick={signOut} className="outline_btn">Log Out</button>
                 <Link href="/profile">                                    {/*Make 👇 37 if needed*/}
-                <Image src="/assets/images/logo.svg" alt="Promptopia logo" width={30} height={30} className="roinded-full object-contain"/>
+                <Image src={session?.user.image} alt="Promptopia logo" width={37} height={37} className="rounded-full object-contain"/>
                 </Link>
             </div>
         ) : ( 
@@ -44,9 +43,9 @@ const Nav = () => {
       </div>
 
       <div className="sm:hidden flex relative">
-          { user ? (
+          { session?.user ? (
             <div className="flex" onClick={() => setToggle((prev) => !prev)}>
-              <Image src="/assets/images/logo.svg" alt="Promptopia logo" width={30} height={30} className="roinded-full object-contain"/>
+              <Image src={session?.user.image} alt="Promptopia logo" width={37} height={37} className="rounded-full object-contain"/>
               { toggle && (
                 <div className="dropdown">
                   <Link href="/profile" className="dropdown_link" onClick={() => setToggle(false)}>My Profile</Link>
