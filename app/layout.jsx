@@ -10,6 +10,9 @@ export const metadata = {
 const Root = ({children}) => {
   return (
     <html lang="eng">
+        <head>
+            <link rel="icon" type="image/x-icon" href="assets/images/logo.svg" />
+        </head>
         <body>
             <Provider>
                 <div className="main">

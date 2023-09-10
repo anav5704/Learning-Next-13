@@ -12,28 +12,33 @@ const PromptCardList = ({data, handleTagClick}) => {
 }
 
 const Feed = () => {
-  const [query, setQuery] = useState("")
+  const [searchQuery, setSearchQuery] = useState("")
   const [prompts, setPrompts] = useState([])
+  const [filteredPromtps, setFilteredPrompts] = useState([])
 
   useEffect(() => { 
     const fetchPrompts = async() => {
       const response = await fetch("/api/prompt")
       const data = await response.json()
+      setFilteredPrompts(data)
       setPrompts(data)
     }
     fetchPrompts()
   }, [])
 
-  const handeSearch = (e) => {
-    console.log("hey")
+  const handeSearch = (e) => {``
+    const query = e.target.value
+     setSearchQuery(query)
+    const filteredPromtps = prompts.filter((prompt) => prompt.prompt.toLowerCase().includes(query.toLocaleLowerCase()) || prompt.tag.toLowerCase().includes(query.toLocaleLowerCase()) || prompt.creator.username.toLowerCase().includes(query.toLocaleLowerCase()))
+    setFilteredPrompts(filteredPromtps)
   }
-
+  
   return (
     <section className="feed">
-      <form className="relative w-full flex-center" action="">
-        <input className="search_input peer" type=" text" placeholder="Search prompts" value={query} onChange={handeSearch}/>
-      </form>
-      <PromptCardList data={prompts} handleTagClick={() => {}}/>
+      <div className="relative w-full flex-center">
+        <input className="search_input peer" type=" text" placeholder="Search prompts" value={searchQuery} onChange={handeSearch}/>
+      </div>
+      <PromptCardList data={filteredPromtps} handleTagClick={() => {}}/>
     </section>
   )
 }
