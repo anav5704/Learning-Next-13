@@ -12,7 +12,7 @@ This is one of the first full-stack Next JS websites I have made. It's pretty si
 
 ## Getting started
 
-First fork and clone the repo. First run ```npm install``` to download all the dependencies. Now, set up your environmental variables. Make a ```.env``` file in the root of your project with the following variables:
+First fork and clone the repo. Then, run ```npm install``` to download all the dependencies. Now, set up your environmental variables. Make a ```.env``` file in the root of your project with the following variables:
 
 ```
 GOOGLE_ID
